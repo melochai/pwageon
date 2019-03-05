@@ -2,6 +2,6 @@ import React from 'react';
 
 // Components
 
-const App = () => <div>Hello from App</div>;
+const App = () => <div>Helloss from App</div>;
 
 export default App;

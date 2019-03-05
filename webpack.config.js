@@ -8,6 +8,18 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
   },
+  devServer: {
+    contentBase: './dist',
+    hot: true,
+    open: true,
+    publicPath: '/dist/',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        pathRewrite: { '^/api': '' },
+      },
+    },
+  },
   module: {
     rules: [
       {
@@ -25,10 +37,6 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
     ],
-  },
-  devServer: {
-    contentBase: './dist',
-    hot: true,
   },
   plugins: [new HotModuleReplacementPlugin()],
 };

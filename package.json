@@ -15,7 +15,7 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "dev": "webpack-dev-server",
-    "build": "webpack -w",
+    "build": "webpack",
     "test": "jest --watchAll --coverage"
   },
   "repository": {
