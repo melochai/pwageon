@@ -1,0 +1,39 @@
+{
+  "name": "pwageon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/index.js",
+  "jest": {
+    "verbose": true,
+    "setupFilesAfterEnv": [
+      "<rootDir>__tests__/setup/setupEnzyme.js"
+    ],
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/__tests__/setup"
+    ]
+  },
+  "scripts": {
+    "start": "nodemon server/index.js",
+    "dev": "webpack-dev-server",
+    "build": "webpack -w",
+    "test": "jest --watchAll --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/changyeamoon/pwageon.git"
+  },
+  "keywords": [
+    "pigeon"
+  ],
+  "author": "Chang Moon, Braden Altstatt, Tristan Schoenfeld, Howard Na",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/changyeamoon/pwageon/issues"
+  },
+  "homepage": "https://github.com/changyeamoon/pwageon#readme",
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4"
+  }
+}
