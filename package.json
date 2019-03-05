@@ -6,7 +6,7 @@
   "jest": {
     "verbose": true,
     "setupFilesAfterEnv": [
-      "<rootDir>__tests__/setup/setupEnzyme.js"
+      "<rootDir>__tests__/setup/enzyme.js"
     ],
     "watchPathIgnorePatterns": [
       "<rootDir>/node_modules/"
@@ -32,8 +32,12 @@
   },
   "homepage": "https://github.com/changyeamoon/pwageon#readme",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "dotenv": "^6.2.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0",
     "express": "^4.16.4",
+    "jest": "^24.1.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1"
   },
