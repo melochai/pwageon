@@ -4,8 +4,8 @@ const path = require('path');
 
 const app = express();
 
-const { PORT } = process.env;
+const { SERVER, PORT } = process.env;
 
-app.use(express.static(path.resolve(__dirname, '../dist')));
+app.use(express.static(path.resolve(__dirname, '../client')));
 
-app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Listening on ${SERVER}:${PORT}`));
