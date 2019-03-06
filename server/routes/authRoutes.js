@@ -13,4 +13,8 @@ module.exports = app => {
   // looks very similiar to above BUT passport will see that a code is attached to this url
   // and handle the request differently
   app.get('/auth/google/callback', passport.authenticate('google'));
+
+  app.get('/api/current_user', (req, res) => {
+    res.send(req.user);
+  });
 };

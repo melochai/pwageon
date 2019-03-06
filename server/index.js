@@ -2,11 +2,22 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 const userController = require('./controllers/userController');
 require('./services/passport');
 
 const app = express();
-const { SERVER, PORT } = process.env;
+const { SERVER, PORT, cookieKey } = process.env;
+
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 1000,
+    keys: [cookieKey],
+  }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
 require('./routes/authRoutes')(app);
 
 app.use(bodyParser.json());
