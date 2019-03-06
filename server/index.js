@@ -17,8 +17,10 @@ passport.use(
       callbackURL: '/auth/google/callback',
       userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
     },
-    accessToken => {
+    (accessToken, refreshToken, profile, done) => {
       console.log('access Token: ', accessToken);
+      console.log('refreshToken: ', refreshToken);
+      console.log('profile: ', profile);
     },
   ),
 );
