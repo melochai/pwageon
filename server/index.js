@@ -12,7 +12,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(express.static(path.resolve(__dirname, '../dist')));
+app.use(express.static(path.resolve(__dirname, '../dist')));
 
 app.post('/createUser', userController.createUser, (req,res) => {
   res.status(200).json(res.locals.newUser);
@@ -38,7 +38,6 @@ app.get('/getUserContacts', userController.getContacts, (req, res) => {
 app.post('/sendMessage', userController.sendMessage, (req, res) => {
   res.status(200).json(res.locals.messageSent);
 })
-app.use(express.static(path.resolve(__dirname, '../dist')));
 
 app.get('/api', (req, res) => {
   res.json('yo');
