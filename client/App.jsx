@@ -1,8 +1,7 @@
-import React,  { Component } from 'react';
+import React, { Component } from 'react';
 import SignIn from './components/SignIn';
 import Main from './components/Main';
 import ComposeMessage from './components/ComposeMessage';
-
 
 // Components
 
