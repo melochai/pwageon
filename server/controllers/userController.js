@@ -15,6 +15,10 @@ function getFloatBelowNum(num) {
   return Math.random() * num;
 }
 
+function calculateTimeInMS(distance, mph) {
+  return ((distance * 60 * 60 * 1000)/60)
+}
+
 const userController = {};
 
 userController.createUser = (req, res, next) => {
@@ -28,9 +32,7 @@ userController.createUser = (req, res, next) => {
       res.locals.newUser = data;
       next();
     })
-    .catch((err) => {
-      next(err);
-    })
+    .catch((err) => next(err))
 }
 
 userController.createPigeon = (req, res, next) => {
@@ -53,16 +55,14 @@ userController.createPigeon = (req, res, next) => {
   const query = {
     text: `INSERT INTO pigeon(user_id, pigeon_name, speed, stamina, durability, age, max_weight_capacity, percentage_live, image_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
     values: values,
-  }
+  };
   db.query(query.text, query.values)
     .then((data) => {
       console.log('data from createPigeon data creation', data);
       res.locals.newPigeon = data;
       next();
     })
-    .catch((err) => {
-      next(err);
-    })
+    .catch((err) => next(err))
 }
 
 userController.getAllUserPigeons = (req, res, next) => {
@@ -76,9 +76,7 @@ userController.getAllUserPigeons = (req, res, next) => {
       res.locals.allPigeons = data;
       next();
     })
-    .catch((err) => {
-      next(err);
-    })
+    .catch((err) => next(err))
 }
 
 userController.makeContact = (req, res, next) => {
@@ -92,9 +90,7 @@ userController.makeContact = (req, res, next) => {
       res.locals.contactMade = data;
       next();
     })
-    .catch((err) => {
-      next(err);
-    })
+    .catch((err) => next(err))
 }
 
 userController.getContacts = (req, res, next) => {
@@ -108,17 +104,14 @@ userController.getContacts = (req, res, next) => {
       res.locals.userContacts = data;
       next();
     })
-    .catch((err) => {
-      next(err);
-    })
+    .catch((err) => next(err))
 }
 
 userController.sendMessage = async (req, res, next) => {
-  console.log(req.body);
   try {
+    // If the user has provided a user name, but no address and no email address
     if (typeof req.body.user_receiving_id === 'string') {
       // do a look up to find the id of the username and the address, based on the username
-      console.log('hello');
       const queryUser = {
         text: `SELECT * FROM app_user WHERE user_name = $1`,
         values: [req.body.user_receiving_id]
@@ -127,6 +120,8 @@ userController.sendMessage = async (req, res, next) => {
       // update req body to represent the found look up
       req.body.user_receiving_id = userInfo[0].id;
       req.body.delivery_address = userInfo[0].user_address;
+      req.body.date_sent = new Date(Date.now());
+      req.body.date_to_deliver = new Date(Date.now() + calculateTimeInMS(2000, 30));
       const messageQuery = {
         text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, email_address, delivery_address, date_to_deliver, image_url, date_sent) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
         values: Object.values(req.body),
@@ -137,10 +132,11 @@ userController.sendMessage = async (req, res, next) => {
           res.locals.messageSent = data;
           next();
         })
-        .catch((err) => {
-          next(err);
-        });
+        .catch((err) => next(err));
+    // if the user has provided an email address and delivery address
     } else if (req.body.email_address && req.body.delivery_address) {
+      req.body.date_sent = new Date(Date.now());
+      req.body.date_to_deliver = new Date(Date.now() + calculateTimeInMS(2000, 30));
       const messageQuery = {
         text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, email_address, delivery_address, date_to_deliver, image_url, date_sent) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
         values: Object.values(req.body),
@@ -151,9 +147,7 @@ userController.sendMessage = async (req, res, next) => {
           res.locals.messageSent = data;
           next();
         })
-        .catch((err) => {
-          next(err);
-        });
+        .catch((err) => next(err));
     }
   } catch (err) {
     next(err);
