@@ -5,9 +5,6 @@ import '../css/styles.css';
 
 // Components
 const Main = ({click}) => {
-    //   const click = () =>{
-    //       console.log("click click");
-    //   }
     return (
       <div>
         <img className="signin" src="../client/assets/pigeon-standard.png" style={{width: '355px', align: 'center'}}/>
