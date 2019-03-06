@@ -72,8 +72,40 @@ userController.getAllUserPigeons = (req, res, next) => {
   }
   db.query(query.text, query.values)
     .then((data) => {
-      console.log('data from createPigeon data creation', data);
+      console.log('data from getAllUserPigeons data creation', data);
       res.locals.allPigeons = data;
+      next();
+    })
+    .catch((err) => {
+      next(err);
+    })
+}
+
+userController.makeContact = (req, res, next) => {
+  const query = {
+    text: `INSERT INTO contact(user_id, contact_id) VALUES($1, $2) RETURNING *`,
+    values: [req.body.user_id, req.body.contact_id],
+  };
+  db.query(query.text, query.values)
+    .then((data) => {
+      console.log('data from makeContact data creation', data);
+      res.locals.contactMade = data;
+      next();
+    })
+    .catch((err) => {
+      next(err);
+    })
+}
+
+userController.getContacts = (req, res, next) => {
+  const query = {
+    text: `SELECT * FROM app_user INNER JOIN contact ON contact.user_id = app_user.id WHERE user_id = $1`,
+    values: [req.body.user_id],
+  };
+  db.query(query.text, query.values)
+    .then((data) => {
+      console.log('data from getContacts data creation', data);
+      res.locals.userContacts = data;
       next();
     })
     .catch((err) => {

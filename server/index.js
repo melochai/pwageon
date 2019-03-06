@@ -27,6 +27,14 @@ app.get('/getAllUserPigeons', userController.getAllUserPigeons, (req, res) => {
   res.status(200).json(res.locals.allPigeons);
 });
 
+app.post('/makeContact', userController.makeContact, (req, res) => {
+  res.status(200).json(res.locals.contactMade);
+})
+
+app.get('/getUserContacts', userController.getContacts, (req, res) => {
+  res.status(200).json(res.locals.userContacts);
+})
+
 app.use((error, request, response, next) => {
   console.log('Error coming from next:', error)
   return response.status(error.status || 500).json({
