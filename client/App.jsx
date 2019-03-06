@@ -1,6 +1,7 @@
 import React,  { Component } from 'react';
 import SignIn from './components/SignIn';
 import Main from './components/Main';
+import ComposeMessage from './components/ComposeMessage';
 
 
 // Components
@@ -20,6 +21,7 @@ class App extends Component {
     return (<div>
              {this.state.loggedIn ? 
              <Main click={this.click}/> : <SignIn click={this.click}/>}
+             <ComposeMessage/>
             </div>
     )};
 };
