@@ -33,6 +33,7 @@
   "homepage": "https://github.com/changyeamoon/pwageon#readme",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",

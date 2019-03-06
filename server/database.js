@@ -18,12 +18,12 @@ db.proc('version')
     console.log(error);
   });
 
-db.query('SELECT * FROM information_schema.tables WHERE table_name = $1', ['message'])
-  .then((data) => {
-    console.log('query results!:', data);
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+// db.query('SELECT * FROM information_schema.tables WHERE table_name = $1', ['user'])
+//   .then((data) => {
+//     console.log('query results!:', data);
+//   })
+//   .catch((err) => {
+//     console.log(err)
+//   })
 
 module.exports = db;
