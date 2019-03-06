@@ -35,6 +35,10 @@ app.get('/getUserContacts', userController.getContacts, (req, res) => {
   res.status(200).json(res.locals.userContacts);
 })
 
+app.post('/sendMessage', userController.sendMessage, (req, res) => {
+  res.status(200).json(res.locals.messageSent);
+})
+
 app.use((error, request, response, next) => {
   console.log('Error coming from next:', error)
   return response.status(error.status || 500).json({

@@ -113,4 +113,23 @@ userController.getContacts = (req, res, next) => {
     })
 }
 
+// TODO: write the logic to handle if a user receiveing id is supplied. 
+// if it is not, then make sure that a delivery address and delivery name is supplied. 
+// It might be good that part of this logic is handled on the front end
+userController.sendMessage = (req, res, next) => {
+  const query = {
+    text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, name_to_receive, delivery_address, date_to_deliver, image_url, date_sent) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    values: [],
+  };
+  db.query(query.text, query.values)
+    .then((data) => {
+      console.log('data from sendMessage data creation', data);
+      res.locals.messageSent = data;
+      next();
+    })
+    .catch((err) => {
+      next(err);
+    })
+}
+
 module.exports = userController;
