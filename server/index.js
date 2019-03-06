@@ -1,10 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const db = require('./database');
 
 const app = express();
 
 const { SERVER, PORT } = process.env;
+
+// console.log(process.env)
 
 // app.use(express.static(path.resolve(__dirname, '../dist')));
 
