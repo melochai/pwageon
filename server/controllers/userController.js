@@ -113,23 +113,51 @@ userController.getContacts = (req, res, next) => {
     })
 }
 
-// TODO: write the logic to handle if a user receiveing id is supplied. 
-// if it is not, then make sure that a delivery address and delivery name is supplied. 
-// It might be good that part of this logic is handled on the front end
-userController.sendMessage = (req, res, next) => {
-  const query = {
-    text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, name_to_receive, delivery_address, date_to_deliver, image_url, date_sent) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-    values: [],
-  };
-  db.query(query.text, query.values)
-    .then((data) => {
-      console.log('data from sendMessage data creation', data);
-      res.locals.messageSent = data;
-      next();
-    })
-    .catch((err) => {
-      next(err);
-    })
+userController.sendMessage = async (req, res, next) => {
+  console.log(req.body);
+  try {
+    if (typeof req.body.user_receiving_id === 'string') {
+      // do a look up to find the id of the username and the address, based on the username
+      console.log('hello');
+      const queryUser = {
+        text: `SELECT * FROM app_user WHERE user_name = $1`,
+        values: [req.body.user_receiving_id]
+      };
+      const userInfo = await db.query(queryUser.text, queryUser.values);
+      // update req body to represent the found look up
+      req.body.user_receiving_id = userInfo[0].id;
+      req.body.delivery_address = userInfo[0].user_address;
+      const messageQuery = {
+        text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, email_address, delivery_address, date_to_deliver, image_url, date_sent) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+        values: Object.values(req.body),
+      };
+      db.query(messageQuery.text, messageQuery.values)
+        .then((data) => {
+          console.log('data from the first sendMessage path data creation', data);
+          res.locals.messageSent = data;
+          next();
+        })
+        .catch((err) => {
+          next(err);
+        });
+    } else if (req.body.email_address && req.body.delivery_address) {
+      const messageQuery = {
+        text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, email_address, delivery_address, date_to_deliver, image_url, date_sent) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+        values: Object.values(req.body),
+      };
+      db.query(messageQuery.text, messageQuery.values)
+        .then((data) => {
+          console.log('data from the other second sendMessage path data creation', data);
+          res.locals.messageSent = data;
+          next();
+        })
+        .catch((err) => {
+          next(err);
+        });
+    }
+  } catch (err) {
+    next(err);
+  }
 }
 
 module.exports = userController;
