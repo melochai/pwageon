@@ -7,13 +7,11 @@ const app = express();
 
 const { SERVER, PORT } = process.env;
 
-// console.log(process.env)
+app.use(express.static(path.resolve(__dirname, '../dist')));
 
-// app.use(express.static(path.resolve(__dirname, '../dist')));
-
-// app.get('/api', (req, res) => {
-//   res.json('yo');
-// });
+app.get('/api', (req, res) => {
+  res.json('yo');
+});
 
 app.get('/anything', (req, res) => {
   res.json('yoo');

@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/changyeamoon/pwageon#readme",
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
     "babel-polyfill": "^6.26.0",
     "dotenv": "^6.2.0",
     "enzyme": "^3.9.0",
