@@ -4,7 +4,7 @@ import '../css/styles.css';
 
 
 // Components
-const SignIn = ({click}) => {
+const ConfirmMessage = ({click}) => {
     return (
       <div>
         <img className="signin" src="../dist/assets/courier_pidgeon.jpg" style={{width: '355px', align: 'center'}}/>
@@ -16,4 +16,4 @@ const SignIn = ({click}) => {
     )       
 };
 
-export default SignIn;
+export default ConfirmMessage;
