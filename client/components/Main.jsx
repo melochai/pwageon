@@ -4,14 +4,20 @@ import '../css/styles.css';
 
 
 // Components
-const Main = ({click}) => {
+const Main = ({showCompose, displayPigi, incrementPigi}) => {
     return (
       <div>
         <div className="header"></div>
-        <img className="signin" src="./assets/pigeon-standard.png" style={{width: '355px', align: 'center'}}/>
-        <h1 className="signin">Pigi</h1>
+        <img className="signin" src={displayPigi.image} style={{width: '355px', align: 'center'}}/>
+        <button onClick={incrementPigi}>Next Pigeon</button>
+        <h1 className="signin">{displayPigi.name}</h1>
+        <div className="stats">
+          <p>Speed : {displayPigi.speed}</p>
+          <p>Stamina : {displayPigi.stamina}</p>
+          <p>Success : {displayPigi.success}</p>
+        </div>
         <div>
-            <button className="signin" onClick={click}><img src="./assets/GoogleSiginBtn/btn_google_signin_dark_focus_web@2x.png"/></button>
+            <button className="message" onClick={showCompose}>Prepare Message</button>
         </div>
       </div>
     )       

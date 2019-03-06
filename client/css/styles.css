@@ -58,10 +58,27 @@ button.signin:hover {
 
 }
 button.message {
+    width: auto;
+    height: auto;
+    text-align: center;
     background-color : #2DC769;
     color: #FFFFFF;
     border: 1px solid #FFFFFF;
     border-radius: 9px;
-    font: Myanmar Sangam MN;
-    font-size: 27px;
+    font-family: Myanmar Sangam MN;
+    font-size: 20px;
 }
+
+.stats {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 35%;
+    margin-right: 35%;
+    background-color: white;
+    border-radius: 9px;
+    font-family: Myanmar Sangam MN;
+    font-size: 20px;
+    text-align: center;
+
+}
+
