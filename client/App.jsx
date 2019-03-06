@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 import SignIn from './components/SignIn';
 import Main from './components/Main';
 import ComposeMessage from './components/ComposeMessage';
+import ConfirmMessage from './components/ConfirmMessage';
 
 // Components
 
@@ -12,16 +14,23 @@ class App extends Component {
       loggedIn: false,
     };
   }
+  
   click = () => {
-    this.setState({ loggedIn: !this.state.loggedIn });
-    console.log(this.state.loggedIn);
+    this.setState({ loggedIn: true });
   };
+
   render() {
     return (
-      <div>
-        {this.state.loggedIn ? <Main click={this.click} /> : <SignIn click={this.click} />}
-        <ComposeMessage />
-      </div>
+      <BrowserRouter>
+        <div>
+          <Route exact path="/" render={() => (
+              this.state.loggedIn ? <Main /> : <SignIn click={this.click} />
+            )}
+          />
+          <Route path="/compose" component={ComposeMessage} />
+          <Route path="/confirm" component={ConfirmMessage} />
+        </div>
+      </BrowserRouter>
     );
   }
 }
