@@ -32,8 +32,8 @@ app.get(
   }),
 );
 
-app.get('/anything', (req, res) => {
-  res.json('yoo');
-});
+// looks very similiar to above BUT passport will see that a code is attached to this url
+// and handle the request differently
+app.get('/auth/google/callback', passport.authenticate('google'));
 
 app.listen(PORT, () => console.log(`Listening on ${SERVER}:${PORT}`));
