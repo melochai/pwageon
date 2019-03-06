@@ -5,15 +5,17 @@ const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const userController = require('./controllers/userController');
+const keys = require('./config/keys');
 require('./services/passport');
 
 const app = express();
-const { SERVER, PORT, cookieKey } = process.env;
+const SERVER = process.env.SERVER || 'http://localhost';
+const PORT = process.env.PORT || 3000;
 
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 1000,
-    keys: [cookieKey],
+    keys: [keys.cookieKey],
   }),
 );
 app.use(passport.initialize());
@@ -63,4 +65,4 @@ app.use((error, request, response, next) => {
   });
 });
 
-app.listen(PORT, () => console.log(`Listening on ${SERVER}:${PORT}`));
+app.listen(PORT, () => console.log(`Listening on ${SERVER}:${PORT}/`));

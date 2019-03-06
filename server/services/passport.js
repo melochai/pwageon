@@ -1,6 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const db = require('../database');
+const keys = require('../config/keys');
 
 passport.serializeUser((user, done) => {
   // user.id is not profile.id. why? Cause the user will definelty have an unique id from the database
@@ -18,8 +19,8 @@ passport.deserializeUser((id, done) => {
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.googleClientID,
-      clientSecret: process.env.googleClientSecret,
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
       callbackURL: '/auth/google/callback',
       userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
     },
