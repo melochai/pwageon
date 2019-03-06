@@ -38,6 +38,11 @@ app.get('/getUserContacts', userController.getContacts, (req, res) => {
 app.post('/sendMessage', userController.sendMessage, (req, res) => {
   res.status(200).json(res.locals.messageSent);
 })
+app.use(express.static(path.resolve(__dirname, '../dist')));
+
+app.get('/api', (req, res) => {
+  res.json('yo');
+});
 
 app.use((error, request, response, next) => {
   console.log('Error coming from next:', error)
