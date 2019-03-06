@@ -1,6 +1,5 @@
 import React from 'react';
-
-import TestComp1 from './TestComp1.jsx';
+import { Link } from 'react-router-dom';
 import '../css/styles.css';
 
 
@@ -19,7 +18,9 @@ const Main = ({showCompose, displayPigi, incrementPigi}) => {
           <p>Success : {displayPigi.success}</p>
         </div>
         <div>
-            <button className="message" onClick={showCompose}>Prepare Message</button>
+            <Link to="/compose" style={{ textDecoration: 'none' }}>
+              <button className="message">Prepare Message</button>
+            </Link>
         </div>
       </div>
     )       
