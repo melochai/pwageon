@@ -9,10 +9,10 @@ module.exports = {
     filename: 'bundle.js',
   },
   devServer: {
-    contentBase: './',
+    contentBase: './dist',
     hot: true,
     open: true,
-    publicPath: '/dist/',
+    publicPath: '/',
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
