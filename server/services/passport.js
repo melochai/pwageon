@@ -32,7 +32,7 @@ passport.use(
           } else {
             db.query('INSERT INTO app_user(google_id) VALUES($1) RETURNING *', [profile.id])
               .then(user => {
-                done(null, user);
+                done(null, user[0]);
               })
               .catch(err => {
                 throw err;

@@ -6,11 +6,11 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const userController = require('./controllers/userController');
 const keys = require('./config/keys');
-require('./services/passport');
 
 const app = express();
 const SERVER = process.env.SERVER || 'http://localhost';
 const PORT = process.env.PORT || 3000;
+require('./services/passport');
 
 app.use(
   cookieSession({
@@ -18,14 +18,15 @@ app.use(
     keys: [keys.cookieKey],
   }),
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
-require('./routes/authRoutes')(app);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.resolve(__dirname, '../dist')));
+require('./routes/authRoutes')(app);
 
 app.post('/createUser', userController.createUser, (req, res) => {
   res.status(200).json(res.locals.newUser);
