@@ -1,4 +1,4 @@
-const pgp = require('pg-promise')({});
+const { Pool } = require('pg');
 
 const connectionParameters = {
   user: process.env.DB_USERNAME,
@@ -8,22 +8,6 @@ const connectionParameters = {
   port: process.env.DB_PORT,
 }
 
-const db = pgp(connectionParameters);
-
-db.proc('version')
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
-
-// db.query('SELECT * FROM information_schema.tables WHERE table_name = $1', ['user'])
-//   .then((data) => {
-//     console.log('query results!:', data);
-//   })
-//   .catch((err) => {
-//     console.log(err)
-//   })
+const db = new Pool(connectionParameters);
 
 module.exports = db;
