@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter, Redirect, Route } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import Main from "./components/Main";
 import ComposeMessage from "./components/ComposeMessage";
 import ConfirmMessage from "./components/ConfirmMessage";
+import ErrorMessage from "./components/ErrorMessage";
+import D3Container from "./containers/D3Container";
 
 // Components
 
@@ -48,7 +50,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div>
+        <Switch>
           <Route
             exact
             path="/"
@@ -65,7 +67,9 @@ class App extends Component {
           />
           <Route path="/compose" component={ComposeMessage} />
           <Route path="/confirm" component={ConfirmMessage} />
-        </div>
+          <Route path="/map" component={D3Container} />
+          <Route component={ErrorMessage} />
+        </Switch>
       </BrowserRouter>
     );
   }

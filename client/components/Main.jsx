@@ -23,6 +23,9 @@ const Main = ({ showCompose, displayPigi, incrementPigi }) => {
         <Link to="/compose" style={{ textDecoration: "none" }}>
           <button className="message">Prepare Message</button>
         </Link>
+        <Link to="/map" style={{ textDecoration: "none" }}>
+          <button >Show Map</button>
+        </Link>
       </div>
     </div>
   );
