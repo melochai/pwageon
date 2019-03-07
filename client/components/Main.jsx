@@ -1,20 +1,31 @@
-import React from 'react';
-import '../css/styles.css';
-
-
+import React from "react";
+import { Link } from "react-router-dom";
+import "../css/styles.css";
 
 // Components
-const Main = ({click}) => {
-    return (
-      <div>
-        <div className="header"></div>
-        <img className="signin" src="../dist/assets/pigeon-standard.png" style={{width: '355px', align: 'center'}}/>
-        <h1 className="signin">Pigi</h1>
-        <div>
-            <button className="signin" onClick={click}><img src="../dist/assets/GoogleSiginBtn/btn_google_signin_dark_focus_web@2x.png"/></button>
-        </div>
+const Main = ({ changeMessageBody, displayPigi, incrementPigi }) => {
+  return (
+    <div>
+      <div className="header" />
+      <img
+        className="signin"
+        src={displayPigi.image}
+        style={{ width: "355px", align: "center" }}
+      />
+      <button onClick={incrementPigi}>Next Pigeon</button>
+      <h1 className="signin">{displayPigi.name}</h1>
+      <div className="stats">
+        <p>Speed : {displayPigi.speed}</p>
+        <p>Stamina : {displayPigi.stamina}</p>
+        <p>Success : {displayPigi.success}</p>
       </div>
-    )       
+      <div>
+        <Link to="/compose" style={{ textDecoration: "none" }}>
+          <button className="message">Prepare Message</button>
+        </Link>
+      </div>
+    </div>
+  );
 };
 
 export default Main;

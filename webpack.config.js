@@ -1,12 +1,13 @@
 const path = require('path');
 const { HotModuleReplacementPlugin } = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   entry: './client/index.js',
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   devServer: {
     contentBase: './dist',
@@ -36,7 +37,14 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: ['file-loader'],
+      },
     ],
   },
-  plugins: [new HotModuleReplacementPlugin()],
+  plugins: [
+    new HotModuleReplacementPlugin(),
+    new CopyWebpackPlugin([{ from: 'client/assets', to: 'assets' }]),
+  ],
 };

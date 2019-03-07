@@ -1,19 +1,20 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import '../css/styles.css';
 
 
 
 // Components
-const ComposeMessage = ({click}) => {
+const ComposeMessage = ({click, changeMessage}) => {
     return (
       <div> 
-        <img className="signin" src="../dist/assets/Pigeon.gif" style={{width: '355px', align: 'center'}}/>
-        <input className="message" type="text" value="Title"/>
-        <input className="message" type="text" value="To" />
-        <h1 className="signin">Pigeon Messenger</h1>
-        <div>
-            <button className="signin" onClick={click}><img src="../dist/assets/GoogleSiginBtn/btn_google_signin_light_normal_web@2x.png"/></button>
-        </div>
+        {/* <img className="signin" src="../assets/Pigeon.gif" style={{width: '355px', align: 'center'}}/> */}
+        <form>
+          <input id="message-title" className="message" type="text" placeholder="Title" onChange={changeMessage} />
+          <input id="message-to"className="message" type="text" placeholder="To" onChange={changeMessage} />
+          <textarea id="message-body" className="message" rows="12" cols="50" placeholder="Enter Message..." onChange={changeMessage}></textarea>
+          <Link to="/confirm" style={{ textDecoration: "none" }}><button className="message">Send</button></Link>
+        </form>
       </div>
     )       
 };
