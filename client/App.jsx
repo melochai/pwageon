@@ -13,6 +13,11 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       displayCompose: false,
+      messageBody: '',
+      messageTo: '',
+      messageTitle: '',
+      messageFrom: '',
+      messageLocation: '',
 
       pigeons: [
         {
@@ -29,10 +34,40 @@ class App extends Component {
           success: "B",
           image: "../assets/courier_pidgeon.jpg"
         },
-        { name: "pugi", speed: "F", stamina: "A", success: "C" }
+        { name: "pugi", 
+          speed: "F", 
+          stamina: "A", 
+          success: "C",
+          image: "../assets/dimpidgey.png" 
+        },
+        { name: "boogi", 
+          speed: "F", 
+          stamina: "A", 
+          success: "C",
+          image: "../assets/fattydove.png" 
+        },
+        { name: "fubai", 
+          speed: "F", 
+          stamina: "A", 
+          success: "C",
+          image: "../assets/deadpidgey.png" 
+        }
+      
       ],
       increment: 0
     };
+  };
+  changeMessage = (e) => {
+      if(e.target.id === 'message-title'){
+         this.setState({messageTitle: e.target.value})
+      }
+      if(e.target.id === 'message-to'){
+         this.setState({messageTo: e.target.value})
+
+      }
+      if(e.target.id === 'message-body'){
+         this.setState({messageBody: e.target.value})
+      }
   }
   incrementPigi = () => {
     if (this.state.increment + 1 >= this.state.pigeons.length) {
@@ -63,8 +98,8 @@ class App extends Component {
               )
             }
           />
-          <Route path="/compose" component={ComposeMessage} />
-          <Route path="/confirm" component={ConfirmMessage} />
+          <Route path="/compose" render={() => <ComposeMessage changeMessage={this.changeMessage}/>} />
+          <Route path="/confirm" render={() => <ConfirmMessage statey={this.state}/>} />
         </div>
       </BrowserRouter>
     );

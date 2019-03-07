@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../css/styles.css";
 
 // Components
-const Main = ({ showCompose, displayPigi, incrementPigi }) => {
+const Main = ({ changeMessageBody, displayPigi, incrementPigi }) => {
   return (
     <div>
       <div className="header" />
