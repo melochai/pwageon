@@ -1,6 +1,5 @@
 const NodeGeocoder = require('node-geocoder');
-const distance = require('google-distance');
-distance.apiKey = process.env.GOOGLE_API_GEO;
+const geodist = require('geodist');
 
 const userHelpers = {};
 
@@ -33,14 +32,16 @@ userHelpers.calculateTimeInMS = (distance, mph) => {
 userHelpers.getLatAndLongFromAddress = async (address) => {
   try {
     const res = await geocoder.geocode(address);
-    return { lat: res[0].latitude, long: res[0].longitude };
+    return { lat: res[0].latitude, lon: res[0].longitude };
   } catch (err) {
     console.log(err);
   }
 }
 
 userHelpers.calculateDistance = (first, second) => {
-  
+  const distance = geodist(first, second, { exact: true, unit: 'mi' });
+  console.log('distance to travel!!!!', distance);
+  return distance;
 }
 
 module.exports = userHelpers;

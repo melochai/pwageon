@@ -1,5 +1,5 @@
 const db = require('../database');
-const { getRandomPigeonName, getIntBelowNum, getFloatBelowNum, calculateTimeInMS, getLatAndLongFromAddress } = require('../helperFunctions/user.js');
+const { getRandomPigeonName, getIntBelowNum, getFloatBelowNum, calculateTimeInMS, getLatAndLongFromAddress, calculateDistance } = require('../helperFunctions/user.js');
 
 const pigeonNames = ['jim', 'bob', 'jane', 'alice', 'tim', 'peter', 'stephanie', 'carry'];
 
@@ -118,22 +118,25 @@ userController.sendMessage = async (req, res, next) => {
       };
       const userInfo = await db.query(queryUser.text, queryUser.values);
       console.log('userInfo', userInfo.rows);
+
+      console.log('req.body', req.body);
+
+      const latAndLongs = userInfo.rows.map((obj) => {
+        return { lat: obj.address_lat, lon: obj.address_long }
+      });
+
+      console.log('latAndlongs', latAndLongs);
+
+      const distanceInMiles = calculateDistance(latAndLongs[0], latAndLongs[1]);
+
       // update req body to represent the user we looked up
       req.body.user_receiving_id = userInfo.rows[0].id;
       req.body.delivery_address = userInfo.rows[0].user_address;
       req.body.date_sent = new Date(Date.now());
-      req.body.date_to_deliver = new Date(Date.now() + calculateTimeInMS(2000, 30));
-
-      // set the latitude and longitude
-      const latAndLong = await getLatAndLongFromAddress(req.body.delivery_address);
-      req.body.delivery_lat = latAndLong.lat;
-      req.body.delivery_long = latAndLong.long;
-      console.log('++++++++++++++++++++++++++++');
-      console.log('lat and long!', latAndLong);
-      console.log('++++++++++++++++++++++++++++');
+      req.body.date_to_deliver = new Date(Date.now() + calculateTimeInMS(distanceInMiles, 30));
 
       const messageQuery = {
-        text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, email_address, delivery_address, date_to_deliver, image_url, date_sent, delivery_lat, delivery_long)
+        text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, email_address, delivery_address, delivery_lat, delivery_long, date_sent, date_to_deliver, image_url)
                VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
                RETURNING *`,
         values: Object.values(req.body),
@@ -150,12 +153,14 @@ userController.sendMessage = async (req, res, next) => {
     } else if (req.body.email_address && req.body.delivery_address) {
 
       const queryUser = {
-        text: `SELECT * FROM app_user WHERE id = $1 OR id = $2`,
-        values: [req.body.user_sending_id, req.body.user_receiving_id]
+        text: `SELECT * FROM app_user WHERE id = $1`,
+        values: [req.body.user_sending_id]
       };
       const userInfo = await db.query(queryUser.text, queryUser.values);
 
       console.log('userInfo', userInfo.rows);
+
+      const latAndLongEnd = {lat: userInfo.rows[0].address_lat, lon: userInfo.rows[0].address_long}
 
       // set the latitude and longitude
       const latAndLong = await getLatAndLongFromAddress(req.body.delivery_address);
@@ -163,17 +168,18 @@ userController.sendMessage = async (req, res, next) => {
       console.log('lat and long!', latAndLong);
       console.log('++++++++++++++++++++++++++++');
       req.body.delivery_lat = latAndLong.lat;
-      req.body.delivery_long = latAndLong.long;
+      req.body.delivery_long = latAndLong.lon;
 
-      
+      console.log(req.body);
 
+      const distanceInMiles = calculateDistance(latAndLong, latAndLongEnd);
       // Set date sent as the current date and set the delivery data as being a date in the future bases on pigeon speed and distance from person to person
       req.body.date_sent = new Date(Date.now());
-      req.body.date_to_deliver = new Date(Date.now() + calculateTimeInMS(2000, 30));
+      req.body.date_to_deliver = new Date(Date.now() + calculateTimeInMS(distanceInMiles, 30));
 
 
       const messageQuery = {
-        text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, email_address, delivery_address, date_to_deliver, image_url, date_sent, delivery_lat, delivery_long)
+        text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, email_address, delivery_address, delivery_lat, delivery_long, date_sent, date_to_deliver, image_url)
                VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
                RETURNING *`,
         values: Object.values(req.body),
