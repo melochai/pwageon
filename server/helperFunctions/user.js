@@ -6,11 +6,9 @@ const userHelpers = {};
 
 const options = {
   provider: 'google',
-
-  // Optional depending on the providers
-  httpAdapter: 'https', // Default
-  apiKey: process.env.GOOGLE_API_GEO, // for Mapquest, OpenCage, Google Premier
-  formatter: null         // 'gpx', 'string', ...
+  httpAdapter: 'https',
+  apiKey: process.env.GOOGLE_API_GEO, 
+  formatter: null
 };
 
 const geocoder = NodeGeocoder(options);
@@ -37,7 +35,7 @@ userHelpers.getLatAndLongFromAddress = async (address) => {
     const res = await geocoder.geocode(address);
     return { lat: res[0].latitude, long: res[0].longitude };
   } catch (err) {
-    next(err);
+    console.log(err);
   }
 }
 
