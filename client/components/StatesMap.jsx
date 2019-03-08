@@ -70,15 +70,15 @@ class StatesMap extends Component {
       .enter()
       .append("path")
       .attr("class", "districts")
-      .style("fill", "#236FEA")
+      .style("fill", "#EA7775")
       .attr("d", path)
       //  .append("title")
       //  .text(function(d) { return d.id; })
       .on("mouseover", function(d) {
-        d3.select(this).style("fill", "#EA7775");
+        d3.select(this).style("fill", "#236FEA");
       })
       .on("mouseout", function(d) {
-        d3.select(this).style("fill", "#EA7775");
+        d3.select(this).style("fill", "#236FEA");
       });
     svg
       .append("path")
