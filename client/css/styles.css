@@ -98,7 +98,7 @@ a.message {
   font-family: Myanmar Sangam MN;
   font-size: 30px;
   text-align: center;
-  border: 2px solid white;
+  /* border: 2px solid rgb(154, 146, 146); */
   width: 100vw;
 
   /* align-items: center; */

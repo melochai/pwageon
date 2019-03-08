@@ -55,10 +55,6 @@ app.post('/sendMessage', userController.sendMessage, (req, res) => {
   res.status(200).json(res.locals.messageSent);
 });
 
-app.get('/api', (req, res) => {
-  res.json('yo');
-});
-
 app.use((error, request, response, next) => {
   console.log('Error coming from next:', error);
   return response.status(error.status || 500).json({

@@ -63,7 +63,7 @@ class App extends Component {
     this.setState({ loggedIn: !this.state.loggedIn });
   };
   sendMessage() {
-    fetch('/sendMessage', {
+    fetch('/api/sendMessage', {
       method: 'POST',
       cache: 'no-cache',
       headers: {
