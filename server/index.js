@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
@@ -12,6 +13,7 @@ const SERVER = process.env.SERVER || 'http://localhost';
 const PORT = process.env.PORT || 3000;
 require('./services/passport');
 
+app.use(cors());
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 1000,
@@ -37,7 +39,7 @@ app.post('/createPigeon', userController.createPigeon, (req, res) => {
 });
 
 // TODO: need to implement a way to only use a the logged in usersID for the getAllUserPigeons
-app.get('/getAllUserPigeons', userController.getAllUserPigeons, (req, res) => {
+app.post('/getAllUserPigeons', userController.getAllUserPigeons, (req, res) => {
   res.status(200).json(res.locals.allPigeons);
 });
 
@@ -51,10 +53,6 @@ app.get('/getUserContacts', userController.getContacts, (req, res) => {
 
 app.post('/sendMessage', userController.sendMessage, (req, res) => {
   res.status(200).json(res.locals.messageSent);
-});
-
-app.get('/api', (req, res) => {
-  res.json('yo');
 });
 
 app.use((error, request, response, next) => {

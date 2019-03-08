@@ -1,5 +1,12 @@
 const db = require('../database');
-const { getRandomPigeonName, getIntBelowNum, getFloatBelowNum, calculateTimeInMS, getLatAndLongFromAddress, calculateDistance } = require('../helperFunctions/user.js');
+const {
+  getRandomPigeonName,
+  getIntBelowNum,
+  getFloatBelowNum,
+  calculateTimeInMS,
+  getLatAndLongFromAddress,
+  calculateDistance,
+} = require('../helperFunctions/user.js');
 
 const pigeonNames = ['jim', 'bob', 'jane', 'alice', 'tim', 'peter', 'stephanie', 'carry'];
 
@@ -11,38 +18,37 @@ userController.createUser = async (req, res, next) => {
     console.log('lat and long', latAndLong);
     req.body.address_lat = latAndLong.lat;
     req.body.address_long = latAndLong.long;
-    
+
     const query = {
       text: `INSERT INTO app_user(user_name, user_address, google_id, address_lat, address_long) VALUES($1, $2, $3, $4, $5) RETURNING *`,
-      values: Object.values(req.body)
+      values: Object.values(req.body),
     };
     db.query(query.text, query.values)
-      .then((data) => {
+      .then(data => {
         console.log('data from createUser database creation', data.rows[0]);
         res.locals.newUser = data.rows[0];
         next();
       })
-      .catch((err) => next(err))
-
+      .catch(err => next(err));
   } catch (err) {
     next(err);
   }
-}
+};
 
 userController.createPigeon = (req, res, next) => {
   const values = [req.body.user_id];
-  //name
+  // name
   values.push(getRandomPigeonName(pigeonNames));
-  //speed
+  // speed
   values.push(getIntBelowNum(100));
   // stamina
   values.push(getIntBelowNum(100));
-  //durability
+  // durability
   values.push(getIntBelowNum(100));
-  //age
+  // age
   values.push(getIntBelowNum(20));
   // get max_weight_capacity
-  values.push(getFloatBelowNum(2))
+  values.push(getFloatBelowNum(2));
   // percentage_live
   values.push(getFloatBelowNum(12));
   values.push(req.body.image_url);
@@ -50,30 +56,30 @@ userController.createPigeon = (req, res, next) => {
     text: `INSERT INTO pigeon(user_id, pigeon_name, speed, stamina, durability, age, max_weight_capacity, percentage_live, image_url)
            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
            RETURNING *`,
-    values: values,
+    values,
   };
   db.query(query.text, query.values)
-    .then((data) => {
+    .then(data => {
       console.log('data from createPigeon data creation', data.rows[0]);
       res.locals.newPigeon = data.rows[0];
       next();
     })
-    .catch((err) => next(err))
-}
+    .catch(err => next(err));
+};
 
 userController.getAllUserPigeons = (req, res, next) => {
   const query = {
     text: `SELECT * FROM pigeon WHERE user_id = $1`,
     values: [req.body.user_id],
-  }
+  };
   db.query(query.text, query.values)
-    .then((data) => {
+    .then(data => {
       console.log('data from getAllUserPigeons data creation', data.rows);
       res.locals.allPigeons = data.rows;
       next();
     })
-    .catch((err) => next(err))
-}
+    .catch(err => next(err));
+};
 
 userController.makeContact = (req, res, next) => {
   const query = {
@@ -81,13 +87,13 @@ userController.makeContact = (req, res, next) => {
     values: [req.body.user_id, req.body.contact_id],
   };
   db.query(query.text, query.values)
-    .then((data) => {
+    .then(data => {
       console.log('data from makeContact data creation', data.rows[0]);
       res.locals.contactMade = data.rows[0];
       next();
     })
-    .catch((err) => next(err))
-}
+    .catch(err => next(err));
+};
 
 userController.getContacts = (req, res, next) => {
   const query = {
@@ -98,13 +104,13 @@ userController.getContacts = (req, res, next) => {
     values: [req.body.user_id],
   };
   db.query(query.text, query.values)
-    .then((data) => {
+    .then(data => {
       console.log('data from getContacts data creation', data.rows);
       res.locals.userContacts = data.rows;
       next();
     })
-    .catch((err) => next(err))
-}
+    .catch(err => next(err));
+};
 
 userController.sendMessage = async (req, res, next) => {
   try {
@@ -114,15 +120,15 @@ userController.sendMessage = async (req, res, next) => {
       console.log(req.body);
       const queryUser = {
         text: `SELECT * FROM app_user WHERE id = $1 OR user_name = $2`,
-        values: [req.body.user_sending_id, req.body.user_receiving_id]
+        values: [req.body.user_sending_id, req.body.user_receiving_id],
       };
       const userInfo = await db.query(queryUser.text, queryUser.values);
       console.log('userInfo', userInfo.rows);
 
       console.log('req.body', req.body);
 
-      const latAndLongs = userInfo.rows.map((obj) => {
-        return { lat: obj.address_lat, lon: obj.address_long }
+      const latAndLongs = userInfo.rows.map(obj => {
+        return { lat: obj.address_lat, lon: obj.address_long };
       });
 
       console.log('latAndlongs', latAndLongs);
@@ -142,25 +148,27 @@ userController.sendMessage = async (req, res, next) => {
         values: Object.values(req.body),
       };
       db.query(messageQuery.text, messageQuery.values)
-        .then((data) => {
+        .then(data => {
           console.log('data from the first sendMessage path data creation', data.rows[0]);
           res.locals.messageSent = data.rows[0];
           next();
         })
-        .catch((err) => next(err));
+        .catch(err => next(err));
 
-    // if the user has provided an email address and delivery address
+      // if the user has provided an email address and delivery address
     } else if (req.body.email_address && req.body.delivery_address) {
-
       const queryUser = {
         text: `SELECT * FROM app_user WHERE id = $1`,
-        values: [req.body.user_sending_id]
+        values: [req.body.user_sending_id],
       };
       const userInfo = await db.query(queryUser.text, queryUser.values);
 
       console.log('userInfo', userInfo.rows);
 
-      const latAndLongEnd = {lat: userInfo.rows[0].address_lat, lon: userInfo.rows[0].address_long}
+      const latAndLongEnd = {
+        lat: userInfo.rows[0].address_lat,
+        lon: userInfo.rows[0].address_long,
+      };
 
       // set the latitude and longitude
       const latAndLong = await getLatAndLongFromAddress(req.body.delivery_address);
@@ -177,7 +185,6 @@ userController.sendMessage = async (req, res, next) => {
       req.body.date_sent = new Date(Date.now());
       req.body.date_to_deliver = new Date(Date.now() + calculateTimeInMS(distanceInMiles, 30));
 
-
       const messageQuery = {
         text: `INSERT INTO message(user_sending_id, user_receiving_id, pigeon_sending_id, message_text, email_address, delivery_address, delivery_lat, delivery_long, date_sent, date_to_deliver, image_url)
                VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
@@ -185,16 +192,16 @@ userController.sendMessage = async (req, res, next) => {
         values: Object.values(req.body),
       };
       db.query(messageQuery.text, messageQuery.values)
-        .then((data) => {
+        .then(data => {
           console.log('data from the other second sendMessage path data creation', data.rows[0]);
           res.locals.messageSent = data.rows[0];
           next();
         })
-        .catch((err) => next(err));
+        .catch(err => next(err));
     }
   } catch (err) {
     next(err);
   }
-}
+};
 
 module.exports = userController;
