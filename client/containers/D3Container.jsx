@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import StatesMap from "../components/StatesMap";
 
+import '../css/D3Container.css';
+
 class D3Container extends Component {
   constructor(props) {
     super(props);
@@ -14,8 +16,8 @@ class D3Container extends Component {
 
   render() {
     return (
-      <svg width="960" height="600">
-        <StatesMap />
+      <svg width="1000" height="800">
+        <StatesMap/>
       </svg>
     );
   }

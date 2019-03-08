@@ -1,0 +1,24 @@
+path {
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    
+  }
+
+  
+  .districts:hover {
+    fill: orange;
+  }
+  
+  .district-boundaries {
+    pointer-events: none;
+    fill:none;
+    stroke: rgb(255, 255, 255);
+    stroke-width: .5px;
+  }
+  
+  .state-boundaries {
+    pointer-events: none;
+    fill:none;
+    stroke: #ffffff;
+    stroke-width: 1.5px;
+  }
