@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { BrowserRouter, Redirect, Route } from "react-router-dom";
-import SignIn from "./components/SignIn";
-import Main from "./components/Main";
-import ComposeMessage from "./components/ComposeMessage";
-import ConfirmMessage from "./components/ConfirmMessage";
+import React, { Component } from 'react';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+import SignIn from './components/SignIn';
+import Main from './components/Main';
+import ComposeMessage from './components/ComposeMessage';
+import ConfirmMessage from './components/ConfirmMessage';
 
 // Components
 
@@ -11,29 +11,47 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false,
+      loggedIn: true,
       displayCompose: false,
+      messagesSent: [],
+      messagesInTransit: [],
+      messagesRecieved: [],
+      messageBody: '',
+      messageTo: '',
+      messageTitle: '',
+      messageFrom: '',
+      messageLocation: '',
 
-      pigeons: [
-        {
-          name: "pigi",
-          speed: "C",
-          stamina: "C",
-          success: "B",
-          image: "../assets/pigeon-standard.png"
-        },
-        {
-          name: "mugi",
-          speed: "B",
-          stamina: "D",
-          success: "B",
-          image: "../assets/courier_pidgeon.jpg"
-        },
-        { name: "pugi", speed: "F", stamina: "A", success: "C" }
-      ],
-      increment: 0
+      pigeons: [{}],
+      increment: 0,
     };
   }
+
+  componentWillMount() {
+    fetch('/api/getAllUserPigeons', {
+      method: 'POST',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user_id: 2 }),
+    })
+      .then(res => res.json())
+      .then(pigeons => {
+        this.setState({ pigeons: pigeons });
+      });
+  }
+  changeMessage = e => {
+    if (e.target.id === 'message-title') {
+      this.setState({ messageTitle: e.target.value });
+    }
+    if (e.target.id === 'message-to') {
+      this.setState({ messageTo: e.target.value });
+    }
+    if (e.target.id === 'message-body') {
+      this.setState({ messageBody: e.target.value });
+    }
+  };
   incrementPigi = () => {
     if (this.state.increment + 1 >= this.state.pigeons.length) {
       this.setState({ increment: 0 });
@@ -44,6 +62,24 @@ class App extends Component {
   click = () => {
     this.setState({ loggedIn: !this.state.loggedIn });
   };
+  sendMessage() {
+    fetch('/sendMessage', {
+      method: 'POST',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_sending_id: 2,
+        user_receiving_id: 1,
+        email_address: 'chang@gamil.com',
+      }),
+    })
+      .then(res => res.json())
+      .then(pigeons => {
+        this.setState({ pigeons: pigeons });
+      });
+  }
 
   render() {
     return (
@@ -63,8 +99,11 @@ class App extends Component {
               )
             }
           />
-          <Route path="/compose" component={ComposeMessage} />
-          <Route path="/confirm" component={ConfirmMessage} />
+          <Route
+            path="/compose"
+            render={() => <ComposeMessage changeMessage={this.changeMessage} />}
+          />
+          <Route path="/confirm" render={() => <ConfirmMessage statey={this.state} />} />
         </div>
       </BrowserRouter>
     );

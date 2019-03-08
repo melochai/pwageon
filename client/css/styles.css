@@ -1,84 +1,106 @@
 body {
-    display: grid;
-    background-color: #FFF49B;
+  display: grid;
+  background-color: #fff49b;
 }
 
 .signin {
-    font-family: 'Herculanum';
-    color: #0B0B0B;
+  font-family: 'Herculanum';
+  color: #0b0b0b;
 }
 
 h1.signin {
-    text-align: center;
-    font-size: 35px;
-    background-color: #FFC204;
+  text-align: center;
+  font-size: 35px;
+  background-color: #ffc204;
 }
 img.signin {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 button.signin {
-    outline: none;
-    cursor: pointer;
-    background-color: #FFF49B;
-    border: 1px solid rgba(255, 194, 4, 0.5);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 8px;
-    box-shadow: 0px 0px 0px 0px rgba(255, 194, 4, 0.5);
-    transition: box-shadow .5s;
-
+  outline: none;
+  cursor: pointer;
+  background-color: #fff49b;
+  border: 1px solid rgba(255, 194, 4, 0.5);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 8px;
+  box-shadow: 0px 0px 0px 0px rgba(255, 194, 4, 0.5);
+  transition: box-shadow 0.5s;
 }
 button.signin:hover {
-    box-shadow: 4px 4px 4px 4px rgba(255, 194, 4, 0.5) ;
-    /* border: 1px solid; */
-    background-color: rgba(255, 244, 155, 0.5);
+  box-shadow: 4px 4px 4px 4px rgba(255, 194, 4, 0.5);
+  /* border: 1px solid; */
+  background-color: rgba(255, 244, 155, 0.5);
 }
 .header {
-    background-color: #E6E5E5;
-    height: 60px;
-    margin-bottom: 40px;
-    width: 100%;
+  background-color: #e6e5e5;
+  height: 60px;
+  margin-bottom: 40px;
+  width: 100%;
 }
 .message {
-    width: 300px;
-    margin: 10px;
-    text-align: left;
-    color: #707070ca;
-    font-size: 27px;
-    font-family: Myanmar Sangam MN;
-    border-radius: 20px;
-    display: block;
-    padding-top: 10px;
-    padding-left: 10px;
-    margin-left: auto;
-    margin-right: auto;
-
+  width: 300px;
+  margin: 10px;
+  text-align: left;
+  color: #707070ca;
+  font-size: 27px;
+  font-family: Myanmar Sangam MN;
+  border-radius: 20px;
+  display: block;
+  padding-top: 10px;
+  padding-left: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
-button.message {
-    width: auto;
-    height: auto;
-    text-align: center;
-    background-color : #2DC769;
-    color: #FFFFFF;
-    border: 1px solid #FFFFFF;
-    border-radius: 9px;
-    font-family: Myanmar Sangam MN;
-    font-size: 20px;
+a.message {
+  width: 15%;
+  height: auto;
+  text-align: center;
+  background-color: #2dc769;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 9px;
+  font-family: Myanmar Sangam MN;
+  font-size: 20px;
 }
 
 .stats {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-left: 35%;
-    margin-right: 35%;
-    background-color: white;
-    border-radius: 9px;
-    font-family: Myanmar Sangam MN;
-    font-size: 20px;
-    text-align: center;
-
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 35%;
+  margin-right: 35%;
+  background-color: white;
+  border-radius: 9px;
+  font-family: Myanmar Sangam MN;
+  font-size: 20px;
+  text-align: center;
 }
 
+.pigeon-holder {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  grid-row-gap: 15px;
+}
+.pigeon-image {
+  height: 40vh;
+  width: auto;
+  justify-self: center;
+  align-self: center;
+}
+
+.message-body {
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  grid-gap: 10px;
+  font-family: Myanmar Sangam MN;
+  font-size: 30px;
+  text-align: center;
+  border: 2px solid white;
+  width: 100vw;
+
+  /* align-items: center; */
+  /* justify-content: center; */
+}
