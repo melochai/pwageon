@@ -28,6 +28,9 @@ const Main = ({ changeMessageBody, displayPigi, incrementPigi }) => {
         <Link className="message" to="/compose" style={{ textDecoration: 'none' }}>
           Prepare Message
         </Link>
+        <Link to="/map" style={{ textDecoration: "none" }}>
+          <button >Show Map</button>
+        </Link>
       </div>
     </div>
   );
